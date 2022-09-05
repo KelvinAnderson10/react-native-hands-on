@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { Text, TouchableOpacity, View, StyleSheet, ScrollView } from 'react-native'
 import AppBackground from '../../../shared/components/AppBackground'
 import MainContainer from '../../../shared/components/MainContainer'
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -15,7 +15,7 @@ const MainPage = () => {
     return(
         <MainContainer>
             <AppBackground>
-                <View style={{flex: 1, margin: theme.spacing.s}}>
+                <ScrollView>
                     <HeaderPageLabel text='POS'></HeaderPageLabel>
                     <View style={styles.container}>
                         <View style={styles.menuContainer}>
@@ -38,14 +38,18 @@ const MainPage = () => {
                         </View>
                     </View>
                     <HeaderPageLabel text='Promo'/>
-                    <View style={{flex: 1}}>
+                    <View>
                         <PromoView/>
                     </View>
                     <HeaderPageLabel text='Menu'/>
-                    <View style={{flex: 3}}>
+                    <View>
                         <MenuView/>
                     </View>
-                </View>
+                    <HeaderPageLabel text='Profile'/>
+                    <View>
+                        <Text>Coming Soon...</Text>
+                    </View>
+                </ScrollView>
             </AppBackground>
         </MainContainer>
     )

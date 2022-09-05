@@ -16,6 +16,9 @@ const MenuView = () => {
         {id: 10, menu: 'Menu 10'},
         {id: 11, menu: 'Menu 11'},
         {id: 12, menu: 'Menu 12'},
+        {id: 13, menu: 'Menu 13'},
+        {id: 14, menu: 'Menu 14'},
+        {id: 15, menu: 'Menu 15'},
     ]
 
     const renderItem = ({item}) => {
@@ -27,7 +30,7 @@ const MenuView = () => {
                 data={menus}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
-                numColumns={4}
+                numColumns={3}
                 columnWrapperStyle={{justifyContent: 'space-around'}}
             />
     )
