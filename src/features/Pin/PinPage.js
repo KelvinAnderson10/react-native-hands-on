@@ -1,19 +1,34 @@
 import { useNavigation, useRoute } from "@react-navigation/native"
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, Alert } from "react-native"
 import FormButton from "../../shared/components/FormButton"
 import MainContainer from "../../shared/components/MainContainer"
 import { ROUTE } from "../../shared/constants"
 import { useTheme } from "../../shared/context/ThemeContext"
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from "react"
+import PinKeyboard from "./PinKeyboard"
 
 const PinPage = () => {
     const theme = useTheme()
     const styling = styles(theme)
     const navigation = useNavigation()
-    const [pin, setPin] = useState()
+    const [pin, setPin] = useState('')
     const route = useRoute()
     const [pinParam, setPinParam] = useState({})
+    const [pinRandom, setPinRandom] = useState({})
+
+    let angka = [
+        {id: '1'},
+        {id: '2'},
+        {id: '3'},
+        {id: '4'},
+        {id: '5'},
+        {id: '6'},
+        {id: '7'},
+        {id: '8'},
+        {id: '9'},
+        {id: '0'},
+    ]
 
     useEffect(() => {
         if (route.params?.prevPage) {
@@ -24,13 +39,24 @@ const PinPage = () => {
         }
     }, [route.params])
 
+    useEffect(() => {
+        setPin('')
+        angka = angka.sort(() => Math.random() - 0.5)
+        setPinRandom(angka)
+    }, [])
+
+
+    const renderPin = ({item}) => {
+        return <PinKeyboard number={item.id} savepin={() => {
+            if (pin.length < 6){
+                setPin(pin + item.id)
+            }
+        }}></PinKeyboard>
+    }
+
+
     return (
         <MainContainer>
-            {/* <View style={{padding: 10}}>
-                <TouchableOpacity onPress={()=> {navigation.navigate(ROUTE.MAIN)}}>
-                    <Ionicons name="chevron-back" size={48} color="black" />
-                </TouchableOpacity>
-            </View> */}
             <View style={styling.container}>
                 <Text style={theme.text.subtitle2}>Please Input PIN</Text>
                 <Text style={theme.text.subtitle}>(User id: 123)</Text>
@@ -40,12 +66,36 @@ const PinPage = () => {
                     secureTextEntry
                     maxLength={6}
                     value={pin}
-                    onChangeText={setPin}
+                    // onChangeText={setPin}
+                    editable={false}
                     ></TextInput>
-                </View>
-
-                <FormButton label="Submit" onClick={() => {navigation.navigate(pinParam.prevPage, {message: 'OK'})}}></FormButton>
+                </View>    
+                <View style={{width: '70%'}}>
+                {pinRandom && <FlatList
+                    data={pinRandom}
+                    renderItem={renderPin}
+                    keyExtractor={item => item.id}
+                    numColumns={3}
+                    columnWrapperStyle={{justifyContent: 'space-around'}}
+                />}
+            </View>            
             </View>
+
+            <FormButton label="Submit" onClick={() => {
+                Alert.alert(
+                    "PIN Verified",
+                    "Continue to bill payment",
+                    [
+                        {
+                            text: "Continue",
+                            onPress: () => {navigation.navigate(pinParam.prevPage, {message: 'OK'})
+                                            setPin('')},
+                            style: 'default',
+                        },
+                    ],
+                )
+                
+                }}></FormButton>
         </MainContainer>
     )
 }
@@ -58,13 +108,13 @@ const styles = (theme) => StyleSheet.create({
     },
 
     inputPin: {
-        borderBottomWidth: 1,
+        borderWidth: 1,
         textAlign: 'center',
         fontSize: 32
     },
     inputContainer: {
-        width: '50%',
-        paddingVertical: 50
+        width: '60%',
+        paddingVertical: 50,
     }
 })
 
