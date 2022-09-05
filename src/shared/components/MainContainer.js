@@ -1,10 +1,12 @@
-import {StatusBar, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import {SafeAreaView} from "react-native-safe-area-context";
 
 const MainContainer = ({children}) => {
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="dark-content" backgroundColor={'white'}/>
+            {/* <StatusBar barStyle="dark-content" backgroundColor={'white'}/> */}
+            <StatusBar style="auto" translucent></StatusBar>
             {children}
         </SafeAreaView>
     );

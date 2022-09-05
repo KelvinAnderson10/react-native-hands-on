@@ -23,15 +23,17 @@ export default function App() {
         //   <Text>React Native Components</Text>
         // </MainContainer>
         <DependencyProvider services={services}>
-            <ThemeProvider>
-                <NavigationContainer>
-                    {/* <WelcomePage/> */}
-                    {/* <LoginPage/> */}
-                    {/* <ProductList></ProductList> */}
-                    {/* <MainPage></MainPage> */}
-                    <AppRouter></AppRouter>
-                </NavigationContainer>
-            </ThemeProvider>
+            <SafeAreaProvider>
+                <ThemeProvider>
+                    <NavigationContainer>
+                        {/* <WelcomePage/> */}
+                        {/* <LoginPage/> */}
+                        {/* <ProductList></ProductList> */}
+                        {/* <MainPage></MainPage> */}
+                        <AppRouter></AppRouter>
+                    </NavigationContainer>
+                </ThemeProvider>
+            </SafeAreaProvider>
         </DependencyProvider>
     );
 }

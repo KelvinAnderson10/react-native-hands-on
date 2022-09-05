@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, TouchableOpacity, View, StyleSheet, ScrollView } from 'react-native'
 import AppBackground from '../../../shared/components/AppBackground'
 import MainContainer from '../../../shared/components/MainContainer'
@@ -7,32 +7,47 @@ import { useTheme } from '../../../shared/context/ThemeContext'
 import HeaderPageLabel from '../../../shared/components/HeaderPageLabel';
 import PromoView from "../components/PromoView";
 import MenuView from '../components/MenuView';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { ROUTE } from '../../../shared/constants';
+import ModalDialog from '../../../shared/components/ModalDialog';
 
 
 const MainPage = () => {
     const theme = useTheme()
     const styles = styling(theme)
+    const navigation = useNavigation()
+    const [modalVisible, setModalVisible] = useState(false)
+    const route = useRoute()
+    useEffect(() => {
+        if (route.params?.message) {
+            console.log(route.params.message);
+        }
+    }, [route.params])
     return(
+        
         <MainContainer>
             <AppBackground>
                 <HeaderPageLabel text='WMB' showBorder avatarImg='https://picsum.photos/200'></HeaderPageLabel>
+                {modalVisible && <ModalDialog onPress={() => {setModalVisible(false)}}></ModalDialog>} 
                 <ScrollView>
                     <HeaderPageLabel text='POS'></HeaderPageLabel>
                     <View style={styles.container}>
                         <View style={styles.menuContainer}>
-                            <TouchableOpacity style={{alignItems: "center",}}>
+                            <TouchableOpacity style={{alignItems: "center"}} onPress={() => {setModalVisible(true)}}>
                                 <FontAwesome name="sticky-note-o" size={24} color={theme.colors.primary}/>
                                 <Text style={styles.textMenu}>Add{'\n'}Order</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.menuContainer}>
-                            <TouchableOpacity style={{alignItems: "center",}}>
+                            <TouchableOpacity style={{alignItems: "center"}}>
                                 <FontAwesome name="user-plus" size={24} color={theme.colors.primary}/>
                                 <Text style={styles.textMenu}>Customers{'\n'}Registration</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.menuContainer}>
-                            <TouchableOpacity style={{alignItems: "center",}}>
+                            <TouchableOpacity style={{alignItems: "center",}} onPress={() => {
+                            navigation.navigate(ROUTE.PIN, {prevPage: ROUTE.HOME})
+                            }}>
                                 <FontAwesome name="money" size={24} color={theme.colors.primary}/>
                                 <Text style={styles.textMenu}>Bill{'\n'}Payment</Text>
                             </TouchableOpacity>
@@ -48,7 +63,11 @@ const MainPage = () => {
                     </View>
                     <HeaderPageLabel text='Profile'/>
                     <View>
-                        <Text>Coming Soon...</Text>
+                        <TouchableOpacity onPress={() => {
+                            navigation.replace(ROUTE.LOGIN)
+                        }}>
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
             </AppBackground>
