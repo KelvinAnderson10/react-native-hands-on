@@ -15,6 +15,7 @@ const MainPage = () => {
     return(
         <MainContainer>
             <AppBackground>
+                <HeaderPageLabel text='WMB' showBorder avatarImg='https://picsum.photos/200'></HeaderPageLabel>
                 <ScrollView>
                     <HeaderPageLabel text='POS'></HeaderPageLabel>
                     <View style={styles.container}>
