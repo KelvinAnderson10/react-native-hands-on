@@ -41,12 +41,20 @@ const PinPage = () => {
 
     useEffect(() => {
         setPin('')
-        angka = angka.sort(() => Math.random() - 0.5)
-        setPinRandom(angka)
+        let angkaFinal = angka.sort(() => Math.random() - 0.5)
+        let angkaTemp = angkaFinal[angkaFinal.length - 1]
+        angkaFinal.pop()
+        angkaFinal.push({id: ''}, angkaTemp, {id: '<'})
+        setPinRandom(angkaFinal)
     }, [])
 
 
     const renderPin = ({item}) => {
+        if (item.id === '<'){
+            return <PinKeyboard number={item.id} savepin={() => {
+                setPin(pin.slice(0, pin.length - 1))
+            }}></PinKeyboard>
+        }
         return <PinKeyboard number={item.id} savepin={() => {
             if (pin.length < 6){
                 setPin(pin + item.id)
@@ -63,7 +71,7 @@ const PinPage = () => {
                 <View style={styling.inputContainer}>
                     <TextInput style={styling.inputPin} 
                     keyboardType='numeric'
-                    secureTextEntry
+                    // secureTextEntry
                     maxLength={6}
                     value={pin}
                     // onChangeText={setPin}

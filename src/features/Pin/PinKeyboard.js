@@ -6,8 +6,14 @@ import { useTheme } from '../../shared/context/ThemeContext';
 const PinKeyboard = ({number, savepin}) => {
     const theme = useTheme();
     const styles = styling(theme);
+    let emptyButton = {}
+    if (!number) {
+        return(
+            <View style={[styles.pinContainer, {borderWidth: 0}]}></View>
+        )
+    }
     return (
-        <TouchableOpacity onPress={savepin}>
+        <TouchableOpacity style={emptyButton} onPress={savepin}>
             <View style={styles.pinContainer}>
                 <Text style={styles.textPromo}>{number}</Text>
             </View>
