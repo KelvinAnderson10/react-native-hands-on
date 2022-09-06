@@ -8,13 +8,36 @@ import MainContainer from "../../shared/components/MainContainer";
 import FormPassword from "../../shared/components/FormPassword";
 import { useNavigation } from '@react-navigation/native';
 import { ROUTE } from '../../shared/constants';
+import useViewState from '../../shared/hook/UseViewState';
+import { useDependency } from '../../shared/hook/UseDependency';
+import Spinner from '../../shared/components/Spinner';
+import SnackBar from '../../shared/components/Snackbar';
 
 const LoginPage = () => {
     const navigation = useNavigation()
     const [userName, onChangeUserName] = useState('');
     const [password, onChangePassword] = useState('');
+    const {viewState, setLoading, setError} = useViewState()
+    const {loginService} = useDependency()
+
+    const onAuthenticate = async () => {
+        Keyboard.dismiss();
+        setLoading();
+        try {
+            const response = await loginService.authenticate({userName: userName, password: password});
+            if (response) {
+                navigation.replace(ROUTE.HOME)
+            } else {
+                setError(new Error('Unauthorized'))
+            }
+        } catch (e) {
+            setError(new Error('No Internet Connection Found'))
+        }
+    }
+
     return (
         <MainContainer>
+            {viewState.isLoading && <Spinner/>}
             <AppBackground>
                 <View style={styles.header}>
                     <TitleLabel subTitle text='Welcome!'/>
@@ -23,12 +46,10 @@ const LoginPage = () => {
                     <FormInput placeholder="Input your email" onChangeValue={onChangeUserName} value={userName}/>
                     <FormPassword placeholder="Input your password" onChangeValue={onChangePassword}
                         value={password}/>
-                    <FormButton label='Login' onClick={() => {
-                        Keyboard.dismiss()
-                        navigation.replace(ROUTE.MAIN)
-                    }}/>
+                    <FormButton label='Login' onClick={onAuthenticate}/>
                 </View>
             </AppBackground>
+            {viewState.error !== null && <SnackBar message={viewState.error.message}/>}
         </MainContainer>
     );
 };

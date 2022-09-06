@@ -11,10 +11,14 @@ import { serviceFactory } from "./src/services/ServiceFactory";
 import MainPage from "./src/features/Home/main/MainPage";
 import { NavigationContainer } from "@react-navigation/native";
 import AppRouter from "./src/navigation/AppRouter";
+import { apiClientFactory } from "./src/shared/ApiClientFactory";
+import { clientInstance } from "./src/shared/AxiosClient";
+
 
 export default function App() {
     const fonts = UseAppFont()
-    const services = serviceFactory();
+    const apiClient = apiClientFactory(clientInstance)
+    const services = serviceFactory(apiClient);
     if (!fonts){
         return null
     }

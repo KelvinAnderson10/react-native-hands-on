@@ -19,7 +19,7 @@ const AppRouter = () => {
                 <Stack.Screen name={ROUTE.HOME} component={MainPage}></Stack.Screen>
                 <Stack.Screen name={ROUTE.MAIN} component={HomePage}></Stack.Screen>
             </Stack.Group>
-            <Stack.Screen name={ROUTE.PIN} component={PinPage} options={{headerTitle: '', headerBackImage: () => <Ionicons name="chevron-back" size={48} color="black" />}}></Stack.Screen>
+            <Stack.Screen name={ROUTE.PIN} component={PinPage} options={{presentation:'modal', headerTitle: '', headerBackImage: () => <Ionicons name="chevron-back" size={48} color="black" />}}></Stack.Screen>
         </Stack.Navigator>
     )
 }

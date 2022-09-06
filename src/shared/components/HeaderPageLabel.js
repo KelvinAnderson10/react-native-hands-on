@@ -15,7 +15,7 @@ const HeaderPageLabel = ({text, avatarImg, showBorder=false}) => {
     }
     return (
         <View style={[styles.label, borderStyle]}>
-            <Text style={[theme.text.subtitle, {fontWeight: 'bold'}]}>{text}</Text>
+            <Text style={[theme.text.subtitle, {fontWeight: 'bold', marginTop: 10}]}>{text}</Text>
             {avatarImg && <Avatar imageUrl={avatarImg}></Avatar>}
         </View>
     );

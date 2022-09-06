@@ -6,3 +6,9 @@ export const ROUTE = {
     MAIN: 'Main',
     PIN: 'PIN',
 }
+
+export const SERVICE = {
+    LOGIN: '/login',
+    PRODUCT: '/product',
+    USERINFO: '/user-info'
+}

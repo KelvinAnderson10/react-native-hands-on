@@ -10,6 +10,7 @@ import MenuView from '../components/MenuView';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ROUTE } from '../../../shared/constants';
 import ModalDialog from '../../../shared/components/ModalDialog';
+import { useDependency } from '../../../shared/hook/UseDependency';
 
 
 const MainPage = () => {
@@ -17,17 +18,35 @@ const MainPage = () => {
     const styles = styling(theme)
     const navigation = useNavigation()
     const [modalVisible, setModalVisible] = useState(false)
+
+    const {userService} = useDependency()
+
+    const [fullName, setFullName] = useState('')
+
+    const fetchUserInfo = async () => {
+        try {
+            const response = await userService.getUserInfo()
+            setFullName(response.fullName)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const route = useRoute()
     useEffect(() => {
         if (route.params?.message) {
-            console.log(route.params.message);
+            // console.log(route.params.message);
         }
     }, [route.params])
+
+    useEffect(() => {
+        fetchUserInfo()
+    }, [])
+
     return(
-        
         <MainContainer>
             <AppBackground>
-                <HeaderPageLabel text='WMB' showBorder avatarImg='https://picsum.photos/200'></HeaderPageLabel>
+                <HeaderPageLabel text={'Welcome, ' + fullName}  showBorder avatarImg='https://picsum.photos/200'></HeaderPageLabel>
                 {modalVisible && <ModalDialog onPress={() => {setModalVisible(false)}}></ModalDialog>} 
                 <ScrollView>
                     <HeaderPageLabel text='POS'></HeaderPageLabel>
@@ -63,6 +82,7 @@ const MainPage = () => {
                     </View>
                     <HeaderPageLabel text='Profile'/>
                     <View>
+                        <Text>{fullName}</Text>
                         <TouchableOpacity onPress={() => {
                             navigation.replace(ROUTE.LOGIN)
                         }}>

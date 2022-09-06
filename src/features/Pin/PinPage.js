@@ -32,7 +32,6 @@ const PinPage = () => {
 
     useEffect(() => {
         if (route.params?.prevPage) {
-            console.log(route.params.prevPage);
             setPinParam({
                 prevPage: route.params.prevPage
             })
