@@ -13,6 +13,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppRouter from "./src/navigation/AppRouter";
 import { apiClientFactory } from "./src/shared/ApiClientFactory";
 import { clientInstance } from "./src/shared/AxiosClient";
+import { AuthProvider } from "./src/shared/context/AuthContext";
 
 
 export default function App() {
@@ -30,11 +31,13 @@ export default function App() {
             <SafeAreaProvider>
                 <ThemeProvider>
                     <NavigationContainer>
-                        {/* <WelcomePage/> */}
-                        {/* <LoginPage/> */}
-                        {/* <ProductList></ProductList> */}
-                        {/* <MainPage></MainPage> */}
-                        <AppRouter></AppRouter>
+                        <AuthProvider>
+                            {/* <WelcomePage/> */}
+                            {/* <LoginPage/> */}
+                            {/* <ProductList></ProductList> */}
+                            {/* <MainPage></MainPage> */}
+                            <AppRouter></AppRouter>
+                        </AuthProvider>
                     </NavigationContainer>
                 </ThemeProvider>
             </SafeAreaProvider>

@@ -12,25 +12,27 @@ import useViewState from '../../shared/hook/UseViewState';
 import { useDependency } from '../../shared/hook/UseDependency';
 import Spinner from '../../shared/components/Spinner';
 import SnackBar from '../../shared/components/Snackbar';
+import { useAuth } from '../../shared/hook/UseAuth';
 
 const LoginPage = () => {
     const navigation = useNavigation()
     const [userName, onChangeUserName] = useState('');
     const [password, onChangePassword] = useState('');
     const {viewState, setLoading, setError} = useViewState()
-    const {loginService} = useDependency()
+    const {onLogin} = useAuth()
 
     const onAuthenticate = async () => {
         Keyboard.dismiss();
         setLoading();
         try {
-            const response = await loginService.authenticate({userName: userName, password: password});
+            const response = await onLogin({userName: userName, password: password});
             if (response) {
                 navigation.replace(ROUTE.HOME)
             } else {
                 setError(new Error('Unauthorized'))
             }
         } catch (e) {
+            console.log(e);
             setError(new Error('No Internet Connection Found'))
         }
     }

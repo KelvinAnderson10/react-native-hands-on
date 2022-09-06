@@ -8,9 +8,10 @@ import HeaderPageLabel from '../../../shared/components/HeaderPageLabel';
 import PromoView from "../components/PromoView";
 import MenuView from '../components/MenuView';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { ROUTE } from '../../../shared/constants';
+import { KEY, ROUTE } from '../../../shared/constants';
 import ModalDialog from '../../../shared/components/ModalDialog';
 import { useDependency } from '../../../shared/hook/UseDependency';
+import { Storage } from '../../../shared/Storage';
 
 
 const MainPage = () => {
@@ -19,14 +20,13 @@ const MainPage = () => {
     const navigation = useNavigation()
     const [modalVisible, setModalVisible] = useState(false)
 
-    const {userService} = useDependency()
 
     const [fullName, setFullName] = useState('')
-
+    const storage = Storage()
     const fetchUserInfo = async () => {
         try {
-            const response = await userService.getUserInfo()
-            setFullName(response.fullName)
+            const response = await storage.getData(KEY.FULLNAME)
+            setFullName(response)
         } catch (error) {
             console.log(error);
         }

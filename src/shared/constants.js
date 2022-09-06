@@ -12,3 +12,8 @@ export const SERVICE = {
     PRODUCT: '/product',
     USERINFO: '/user-info'
 }
+
+export const KEY = {
+    TOKEN: 'token',
+    FULLNAME: 'fullName',
+}
